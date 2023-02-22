@@ -19,7 +19,6 @@ public class ProductService {
         this.productRepo = productRepo;
     }
 
-
     public List<ProductResponse> getAllProducts() {
         List<ProductResponse> products = productRepo.findAll()
                 .stream()
