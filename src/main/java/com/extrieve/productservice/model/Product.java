@@ -18,4 +18,9 @@ public class Product {
     private String description;
 //    private String category;
     private String price;
+
+    @Override
+    public int hashCode(){
+        return getClass().hashCode();
+    }
 }
