@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,8 +25,11 @@ class ProductServiceApplicationTests {
 
 	private final MockMvc mockMvc;
 
-	ProductServiceApplicationTests(MockMvc mockMvc) {
+	private final ObjectMapper objectMapper;
+
+	ProductServiceApplicationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
 		this.mockMvc = mockMvc;
+		this.objectMapper = objectMapper;
 	}
 
 	@DynamicPropertySource
@@ -36,7 +40,7 @@ class ProductServiceApplicationTests {
 	void ensureProductCreation() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
 				.contentType("application/json")
-				.content(getProductRequest().toString())
+				.content(objectMapper.writeValueAsString(getProductRequest()))
 				).andExpect(status().isCreated());
 	}
 
